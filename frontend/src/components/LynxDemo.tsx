@@ -56,9 +56,9 @@ const LynxDemo: React.FC = () => {
   const handlePurchase = async (content: ContentItem) => {
     // Simulate blockchain payment
     console.log(`🔥 BUTTON CLICKED! Initiating blockchain payment for ${content.title} - $${content.price}`);
-    alert(`Button clicked for ${content.title}!`);
     
     try {
+      console.log('Making API request to:', '/api/payments/purchase');
       const response = await fetch('/api/payments/purchase', {
         method: 'POST',
         headers: {
@@ -72,12 +72,22 @@ const LynxDemo: React.FC = () => {
         })
       });
       
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API Error: ${response.status} - ${errorText}`);
+      }
+      
       const result = await response.json();
       console.log('Payment result:', result);
       alert(`Payment successful! Transaction ID: ${result.transactionId || 'DEMO_' + Math.random().toString(36).substr(2, 9)}`);
     } catch (error) {
       console.error('Payment failed:', error);
-      alert('Payment failed. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      alert(`Payment failed: ${errorMessage}. Please try again.`);
     }
   };
 
