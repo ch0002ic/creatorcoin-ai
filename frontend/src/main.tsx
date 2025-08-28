@@ -1,10 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { root } from "@lynx-js/react";
 import App from './App.tsx'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+root.render(<App />);
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept();
+}
