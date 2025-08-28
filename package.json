@@ -36,6 +36,10 @@
   ],
   "author": "TikTok TechJam 2025 Team",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "devDependencies": {
     "@types/node": "^20.5.0",
     "@typescript-eslint/eslint-plugin": "^6.4.0",

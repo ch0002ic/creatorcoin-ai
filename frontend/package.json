@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Cross-platform Lynx frontend for CreatorCoin AI",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -58,6 +62,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "vercel-build": "npm run build",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
