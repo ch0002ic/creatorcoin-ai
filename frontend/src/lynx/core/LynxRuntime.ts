@@ -161,7 +161,7 @@ class LynxRuntime {
     });
   }
 
-  private simulateNativeCall(method: string, params: any): any {
+  private simulateNativeCall(method: string, _params: any): any {
     switch (method) {
       case 'hapticFeedback':
         return { success: true, method: 'native_haptic' };

@@ -43,10 +43,10 @@ class LynxRuntimeEnvironment {
     try {
       // Attempt to connect to real Lynx bridge
       // @ts-ignore - Lynx bridge injected by native runtime
-      if (typeof window !== 'undefined' && window.LynxBridge) {
+      if (typeof window !== 'undefined' && (window as any).LynxBridge) {
         // @ts-ignore
-        this.bridge = window.LynxBridge;
-        this.platformInfo = await this.bridge.getPlatformInfo();
+        this.bridge = (window as any).LynxBridge;
+        this.platformInfo = await this.bridge?.getPlatformInfo();
         this.isInitialized = true;
         console.log('🎯 Lynx Bridge Connected:', this.platformInfo);
       } else {
