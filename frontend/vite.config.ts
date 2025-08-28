@@ -36,11 +36,13 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false, // Disable for production builds
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
+          lynx: ['./src/lynx/core', './src/lynx/components'], // Lynx framework chunk
           blockchain: ['@solana/web3.js', '@solana/wallet-adapter-react'],
           charts: ['chart.js', 'react-chartjs-2']
         }
