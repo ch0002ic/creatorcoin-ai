@@ -19,7 +19,7 @@ function App() {
     return (
       <view className="App">
         <view className="demo-header">
-          <button 
+          <view 
             onClick={() => setCurrentDemo(null)}
             style={{
               position: 'absolute',
@@ -32,8 +32,8 @@ function App() {
               cursor: 'pointer'
             }}
           >
-            ← Back
-          </button>
+            <text>← Back</text>
+          </view>
           <text style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
             {demos.find(d => d.id === currentDemo)?.title}
           </text>
@@ -104,7 +104,7 @@ function App() {
           flexWrap: 'wrap', 
           justifyContent: 'center' 
         }}>
-          <button 
+          <view 
             onClick={() => alert('✅ Backend API: http://localhost:3001\n✅ AI Service: http://localhost:5000\n✅ Lynx Framework: Real @lynx-js/react')}
             style={{
               background: '#28a745',
@@ -117,10 +117,12 @@ function App() {
               fontWeight: '600'
             }}
           >
-            🔍 Check All Services
-          </button>
+            <text style={{ color: 'white', fontSize: '16px', fontWeight: '600' }}>
+              🔍 Check All Services
+            </text>
+          </view>
           
-          <button 
+          <view 
             onClick={() => window.open('https://lynxjs.org/', '_blank')}
             style={{
               background: 'linear-gradient(135deg, #1DA1F2, #14171A)',
@@ -133,8 +135,10 @@ function App() {
               fontWeight: '600'
             }}
           >
-            📖 Lynx Documentation
-          </button>
+            <text style={{ color: 'white', fontSize: '16px', fontWeight: '600' }}>
+              📖 Lynx Documentation
+            </text>
+          </view>
         </view>
 
         <view style={{ marginTop: '2rem', padding: '1rem', background: '#f8f9fa', borderRadius: '8px' }}>
