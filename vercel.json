@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "creatorcoin-ai-frontend",
   "builds": [
     {
       "src": "frontend/package.json",
