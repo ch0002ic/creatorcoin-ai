@@ -51,7 +51,12 @@ function App() {
   }
 
   return (
-    <view className="App" style={{ minHeight: '100vh', padding: '2rem 1rem', boxSizing: 'border-box' }}>
+    <view className="App" style={{ 
+      minHeight: '100vh', 
+      padding: '2rem 1rem 4rem 1rem', 
+      boxSizing: 'border-box',
+      paddingBottom: '6rem'
+    }}>
       <view className="App-header" style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <text style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
           🚀 CreatorCoin AI
@@ -171,13 +176,13 @@ function App() {
 
         <view style={{ 
           marginTop: '2rem', 
-          marginBottom: '3rem',
+          marginBottom: '4rem',
           padding: '1.5rem', 
           background: '#f8f9fa', 
           borderRadius: '8px',
           border: '1px solid #dee2e6',
           maxWidth: '600px',
-          margin: '2rem auto 3rem auto'
+          margin: '2rem auto 4rem auto'
         }}>
           <text style={{ 
             fontSize: '1rem', 
@@ -228,6 +233,9 @@ function App() {
             </text>
           </view>
         </view>
+        
+        {/* Extra spacing for mobile devices */}
+        <view style={{ height: '2rem' }}></view>
       </view>
     </view>
   )
