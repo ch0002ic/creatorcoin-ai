@@ -57,7 +57,45 @@ const LynxDemo: React.FC = () => {
     // Simulate blockchain payment
     console.log(`🔥 BUTTON CLICKED! Initiating blockchain payment for ${content.title} - $${content.price}`);
     
-    // For demo purposes, just simulate a successful purchase without API call
+    // Try API call first, fallback to simulation if it fails
+    try {
+      console.log('Attempting API call to:', '/api/buy');
+      const response = await fetch('/api/buy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer demo-token'
+        },
+        body: JSON.stringify({
+          contentId: content.id,
+          amount: content.price,
+          creatorId: content.creator
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ API Success:', result);
+        
+        alert(`🎉 Payment successful! 
+        
+Content: ${content.title}
+Amount: $${content.price}
+Transaction ID: ${result.transactionId || 'TX_API_' + Math.random().toString(36).substr(2, 9).toUpperCase()}
+Blockchain: Solana Devnet
+Status: Confirmed
+Source: Backend API
+
+Thank you for your purchase!`);
+        return;
+      } else {
+        console.log('❌ API failed, falling back to simulation');
+      }
+    } catch (error) {
+      console.log('❌ API error, falling back to simulation:', error);
+    }
+    
+    // Fallback: Client-side simulation (always works)
     const transactionId = 'TX_' + Math.random().toString(36).substr(2, 9).toUpperCase();
     
     // Simulate processing delay
@@ -70,6 +108,7 @@ Amount: $${content.price}
 Transaction ID: ${transactionId}
 Blockchain: Solana Devnet
 Status: Confirmed
+Source: Demo Simulation
 
 Thank you for your purchase!`);
   };
