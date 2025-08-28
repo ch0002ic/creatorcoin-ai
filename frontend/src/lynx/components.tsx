@@ -6,6 +6,7 @@ export interface LynxReactProps {
   children?: ReactNode;
   style?: LynxStyle;
   onGesture?: (gesture: LynxGesture) => void;
+  onPress?: () => void;
   animate?: boolean;
   className?: string;
   id?: string;
@@ -16,6 +17,7 @@ export const LynxView: React.FC<LynxReactProps> = ({
   children, 
   style = {}, 
   onGesture,
+  onPress,
   animate = false,
   className = '',
   id,
@@ -35,6 +37,7 @@ export const LynxView: React.FC<LynxReactProps> = ({
     <div
       id={id}
       className={`lynx-view ${className}`}
+      onClick={onPress}
       style={{
         display: responsiveStyle.display || 'flex',
         flexDirection: responsiveStyle.flexDirection || 'column',
@@ -48,6 +51,7 @@ export const LynxView: React.FC<LynxReactProps> = ({
         height: responsiveStyle.height,
         opacity: responsiveStyle.opacity,
         transform: responsiveStyle.transform,
+        cursor: onPress ? 'pointer' : undefined,
         fontSize: responsiveStyle.fontSize,
         fontWeight: responsiveStyle.fontWeight,
         color: responsiveStyle.color,
@@ -160,7 +164,7 @@ export const LynxButton: React.FC<LynxReactProps & {
   return (
     <LynxView 
       style={combinedStyle} 
-      onGesture={(gesture) => gesture.type === 'tap' && handlePress()}
+      onPress={handlePress}
       {...props}
     >
       {loading ? (

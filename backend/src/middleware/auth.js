@@ -30,6 +30,17 @@ const authenticateToken = (req, res, next) => {
       });
     }
 
+    // Demo mode check for hackathon demonstration
+    if (token === 'demo-token' && (process.env.NODE_ENV === 'development' || process.env.DEMO_MODE === 'true')) {
+      req.user = {
+        userId: 'demo-user-123',
+        email: 'demo@creatorcoin.ai',
+        userType: 'creator',
+        id: 'demo-user-123'
+      };
+      return next();
+    }
+
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default-secret');
     

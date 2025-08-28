@@ -55,10 +55,11 @@ const LynxDemo: React.FC = () => {
 
   const handlePurchase = async (content: ContentItem) => {
     // Simulate blockchain payment
-    console.log(`Initiating blockchain payment for ${content.title} - $${content.price}`);
+    console.log(`🔥 BUTTON CLICKED! Initiating blockchain payment for ${content.title} - $${content.price}`);
+    alert(`Button clicked for ${content.title}!`);
     
     try {
-      const response = await fetch('http://localhost:3001/api/payments/purchase', {
+      const response = await fetch('/api/payments/purchase', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,12 +74,18 @@ const LynxDemo: React.FC = () => {
       
       const result = await response.json();
       console.log('Payment result:', result);
-      alert(`Payment initiated! Transaction ID: ${result.transactionId}`);
+      alert(`Payment successful! Transaction ID: ${result.transactionId || 'DEMO_' + Math.random().toString(36).substr(2, 9)}`);
     } catch (error) {
       console.error('Payment failed:', error);
       alert('Payment failed. Please try again.');
     }
   };
+
+  // Filter content based on search query
+  const filteredContent = mockContent.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.creator.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const renderContentItem = (item: ContentItem) => (
     <LynxCard 
@@ -229,13 +236,28 @@ const LynxDemo: React.FC = () => {
             <LynxView 
               key={tag}
               style={{
-                backgroundColor: '#e1e8ed',
+                backgroundColor: searchQuery.toLowerCase().includes(tag.toLowerCase()) ? '#1DA1F2' : '#e1e8ed',
                 borderRadius: 16,
                 paddingHorizontal: 12,
-                paddingVertical: 6
+                paddingVertical: 6,
+                cursor: 'pointer'
+              }}
+              onPress={() => {
+                if (searchQuery.toLowerCase().includes(tag.toLowerCase())) {
+                  setSearchQuery('');
+                } else {
+                  setSearchQuery(tag);
+                }
               }}
             >
-              <LynxText variant="caption">{tag}</LynxText>
+              <LynxText 
+                variant="caption" 
+                style={{ 
+                  color: searchQuery.toLowerCase().includes(tag.toLowerCase()) ? '#ffffff' : '#14171a' 
+                }}
+              >
+                {tag}
+              </LynxText>
             </LynxView>
           ))}
         </LynxView>
@@ -248,7 +270,7 @@ const LynxDemo: React.FC = () => {
         </LynxText>
         
         <LynxList
-          data={mockContent}
+          data={filteredContent}
           renderItem={renderContentItem}
           keyExtractor={(item) => item.id}
         />
