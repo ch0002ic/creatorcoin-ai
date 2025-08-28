@@ -57,38 +57,21 @@ const LynxDemo: React.FC = () => {
     // Simulate blockchain payment
     console.log(`🔥 BUTTON CLICKED! Initiating blockchain payment for ${content.title} - $${content.price}`);
     
-    try {
-      console.log('Making API request to:', '/api/buy');
-      const response = await fetch('/api/buy', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer demo-token'
-        },
-        body: JSON.stringify({
-          contentId: content.id,
-          amount: content.price,
-          creatorId: content.creator
-        })
-      });
-      
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('API Error Response:', errorText);
-        throw new Error(`API Error: ${response.status} - ${errorText}`);
-      }
-      
-      const result = await response.json();
-      console.log('Payment result:', result);
-      alert(`Payment successful! Transaction ID: ${result.transactionId || 'DEMO_' + Math.random().toString(36).substr(2, 9)}`);
-    } catch (error) {
-      console.error('Payment failed:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      alert(`Payment failed: ${errorMessage}. Please try again.`);
-    }
+    // For demo purposes, just simulate a successful purchase without API call
+    const transactionId = 'TX_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    
+    // Simulate processing delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    alert(`🎉 Payment successful! 
+    
+Content: ${content.title}
+Amount: $${content.price}
+Transaction ID: ${transactionId}
+Blockchain: Solana Devnet
+Status: Confirmed
+
+Thank you for your purchase!`);
   };
 
   // Filter content based on search query
