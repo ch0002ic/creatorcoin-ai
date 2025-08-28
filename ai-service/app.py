@@ -118,7 +118,8 @@ def analyze_content():
             'fraud_risk': {
                 'risk_level': fraud_score['risk_level'],
                 'confidence': fraud_score['confidence'],
-                'flags': fraud_score['flags']
+                'indicators': fraud_score.get('indicators', 0),
+                'action': fraud_score.get('action', 'allow')
             },
             'recommendations': quality_scores.get('recommendations', []),
             'analysis_timestamp': datetime.utcnow().isoformat(),

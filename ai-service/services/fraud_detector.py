@@ -693,3 +693,25 @@ class FraudDetector:
             'unknown': 'manual_review'
         }
         return actions.get(risk_level, 'manual_review')
+    
+    def assess_risk(self, creator_id: str, content_data: dict) -> dict:
+        """Assess fraud risk for content"""
+        try:
+            # Perform fraud detection
+            result = self.detect_content_fraud(content_data)
+            
+            # Return simplified risk assessment
+            return {
+                'risk_level': result.get('risk_level', 'low'),
+                'confidence': result.get('confidence_score', 0.1),
+                'indicators': len(result.get('fraud_indicators', [])),
+                'action': result.get('recommended_action', 'allow')
+            }
+        except Exception as e:
+            return {
+                'risk_level': 'unknown',
+                'confidence': 0.0,
+                'indicators': 0,
+                'action': 'manual_review',
+                'error': str(e)
+            }

@@ -218,5 +218,15 @@ class CacheManager:
         newest_time = max(entry['created_at'] for entry in self.cache.values())
         return time.time() - newest_time
 
+    def get_analysis(self, content_id: str) -> Optional[Any]:
+        """Get analysis result from cache"""
+        cache_key = f"analysis:{content_id}"
+        return self.get(cache_key)
+    
+    def set_analysis(self, content_id: str, analysis: Any, ttl: Optional[int] = None) -> bool:
+        """Cache analysis result"""
+        cache_key = f"analysis:{content_id}"
+        return self.set(cache_key, analysis, ttl)
+
 # Global cache instance
 cache_manager = CacheManager()
