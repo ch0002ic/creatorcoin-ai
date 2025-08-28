@@ -9,7 +9,7 @@ router.get('/creator', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { timeframe = '30d' } = req.query;
 
-    // TODO: Implement analytics from database
+    // Mock analytics retrieval from database for hackathon demonstration
     const analytics = {
       overview: {
         totalEarnings: 0,
@@ -54,7 +54,7 @@ router.get('/content/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
 
-    // TODO: Verify content ownership and fetch analytics
+    // Mock content ownership verification and analytics fetch for hackathon demonstration
     const contentAnalytics = {
       contentId: id,
       overview: {
@@ -107,7 +107,7 @@ router.get('/platform', authenticateToken, async (req, res) => {
       return res.status(403).json({ error: 'Admin access required' });
     }
 
-    // TODO: Implement platform analytics
+    // Mock platform analytics for hackathon demonstration
     const platformAnalytics = {
       overview: {
         totalUsers: 0,
@@ -146,7 +146,7 @@ router.get('/insights', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const userRole = req.user.role;
 
-    // TODO: Implement AI-powered insights
+    // Mock AI-powered insights for hackathon demonstration
     let insights = [];
 
     if (userRole === 'creator') {
@@ -191,7 +191,7 @@ router.post('/track', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { event, properties } = req.body;
 
-    // TODO: Implement event tracking
+    // Mock event tracking for hackathon demonstration
     logger.info(`Event tracked for user ${userId}: ${event}`, properties);
 
     res.json({ message: 'Event tracked successfully' });

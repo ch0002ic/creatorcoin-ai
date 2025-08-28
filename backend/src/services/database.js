@@ -1,7 +1,7 @@
 const logger = require('../utils/logger');
 
 // Mock database implementation for development
-// TODO: Replace with actual PostgreSQL connection
+// Mock PostgreSQL service for hackathon demonstration
 class Database {
   constructor() {
     this.connected = false;
@@ -15,7 +15,7 @@ class Database {
 
   async connect() {
     try {
-      // TODO: Implement actual PostgreSQL connection
+      // Mock PostgreSQL connection for hackathon demonstration
       // For now, simulate connection
       this.connected = true;
       logger.info('Database connected successfully (mock)');

@@ -8,7 +8,7 @@ router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
     
-    // TODO: Implement user profile retrieval from database
+    // Mock user profile retrieval from database for hackathon demonstration
     const userProfile = {
       id: userId,
       email: req.user.email,
@@ -40,7 +40,7 @@ router.put('/profile', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { username, bio, avatar, preferences } = req.body;
 
-    // TODO: Implement profile update in database
+    // Mock profile update in database for hackathon demonstration
     logger.info(`Profile update requested for user ${userId}`);
 
     res.json({
@@ -151,7 +151,7 @@ router.put('/settings', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const settings = req.body;
 
-    // TODO: Implement settings update in database
+    // Mock settings update in database for hackathon demonstration
     logger.info(`Settings updated for user ${userId}`);
 
     res.json({

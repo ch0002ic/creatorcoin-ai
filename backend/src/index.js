@@ -15,7 +15,7 @@ const contentRoutes = require('./routes/content');
 const paymentRoutes = require('./routes/payments');
 const analyticsRoutes = require('./routes/analytics');
 const aiRoutes = require('./routes/ai');
-const blockchainRoutes = require('./routes/blockchain');
+const enhancedBlockchainRoutes = require('./routes/enhanced_blockchain');
 
 // Import middleware
 const { errorHandler } = require('./middleware/errorHandler');
@@ -88,7 +88,7 @@ app.use('/api/content', authenticateToken, contentRoutes);
 app.use('/api/payments', authenticateToken, paymentRoutes);
 app.use('/api/analytics', authenticateToken, analyticsRoutes);
 app.use('/api/ai', authenticateToken, aiRoutes);
-app.use('/api/blockchain', authenticateToken, blockchainRoutes);
+app.use('/api/blockchain', enhancedBlockchainRoutes);
 
 // WebSocket handling for real-time updates
 io.on('connection', (socket) => {

@@ -1,0 +1,77 @@
+/* Lynx AI Components - Cross-platform animations and styles */
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Platform-specific optimizations */
+.lynx-ios {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.lynx-android {
+  transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.lynx-web {
+  transition: all 0.3s ease;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .lynx-mobile {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .lynx-tablet {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lynx-desktop {
+    font-size: 18px;
+    padding: 16px;
+  }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  .lynx-auto-dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+}

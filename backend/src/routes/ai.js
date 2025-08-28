@@ -13,7 +13,7 @@ router.post('/analyze', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // TODO: Integrate with AI service
+    // Mock AI service integration for hackathon demonstration
     logger.info(`AI analysis requested by user ${userId} for content ${contentId}`);
 
     // Simulate AI analysis response
@@ -37,7 +37,7 @@ router.get('/analysis/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
 
-    // TODO: Retrieve analysis results from AI service
+    // Mock AI analysis results retrieval for hackathon demonstration
     const analysisResult = {
       analysisId: id,
       contentId: 'content_123',
@@ -106,7 +106,7 @@ router.post('/enhance', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { contentId, enhancementType } = req.body;
 
-    // TODO: Integrate with AI service for enhancement suggestions
+    // Mock AI service integration for enhancement suggestions - hackathon demonstration
     const enhancementSuggestions = {
       contentId,
       enhancementType,
@@ -145,7 +145,7 @@ router.post('/moderate', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { contentId, contentUrl, contentType } = req.body;
 
-    // TODO: Integrate with AI moderation service
+    // Mock AI moderation service for hackathon demonstration
     const moderationResult = {
       contentId,
       status: 'approved',
@@ -171,7 +171,7 @@ router.get('/trends', authenticateToken, async (req, res) => {
   try {
     const { category, timeframe = '7d' } = req.query;
 
-    // TODO: Implement AI trend analysis
+    // Mock AI trend analysis for hackathon demonstration
     const trends = {
       trending: [
         {
@@ -225,7 +225,7 @@ router.post('/personalize', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { contentPreferences, viewingHistory } = req.body;
 
-    // TODO: Implement AI personalization
+    // Mock AI personalization for hackathon demonstration
     const recommendations = {
       forYou: [
         {

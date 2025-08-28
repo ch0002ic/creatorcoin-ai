@@ -13,7 +13,7 @@ class MockBlockchain {
 
   async connect() {
     try {
-      // TODO: Replace with actual Solana connection
+      // Mock Solana connection for hackathon demonstration
       this.connected = true;
       logger.info(`Blockchain connected to ${this.network} (mock)`);
       return true;
@@ -34,7 +34,7 @@ class MockBlockchain {
 
   // Wallet operations
   async connectWallet(walletAddress, signature) {
-    // TODO: Verify wallet signature
+    // Mock wallet signature verification for hackathon demonstration
     this.wallets.set(walletAddress, {
       address: walletAddress,
       connected: true,
@@ -53,40 +53,91 @@ class MockBlockchain {
   }
 
   async getWalletBalance(walletAddress) {
-    // TODO: Get actual balance from Solana
+    // Enhanced wallet balance with more realistic data
+    const baseBalance = {
+      sol: Number((Math.random() * 5 + 0.1).toFixed(4)),
+      usdc: Number((Math.random() * 1000 + 50).toFixed(2)),
+      creatorcoin: Number((Math.random() * 500 + 10).toFixed(1))
+    };
+    
+    // Calculate staked amounts
+    const stakes = await this.getStakesByAddress(walletAddress);
+    const stakedCreatorCoin = stakes.reduce((total, stake) => 
+      stake.status === 'active' ? total + stake.amount : total, 0);
+    
+    // Calculate pending rewards
+    const pendingRewards = stakes.reduce((total, stake) => {
+      if (stake.status === 'active') {
+        const daysStaked = (Date.now() - new Date(stake.startDate).getTime()) / (1000 * 60 * 60 * 24);
+        const dailyReward = (stake.amount * stake.apy / 100) / 365;
+        return total + (dailyReward * daysStaked);
+      }
+      return total;
+    }, 0);
+    
     return {
-      sol: 0,
-      usdc: 0,
-      creatorcoin: 0
+      ...baseBalance,
+      stakedCreatorCoin: Number(stakedCreatorCoin.toFixed(1)),
+      pendingRewards: Number(pendingRewards.toFixed(4)),
+      totalValue: Number((baseBalance.sol * 150 + baseBalance.usdc + baseBalance.creatorcoin * 2.5).toFixed(2)),
+      lastUpdated: new Date().toISOString()
     };
   }
 
   // Transaction operations
   async createPaymentTransaction(fromAddress, toAddress, amount, currency = 'USDC') {
     const transactionId = Math.random().toString(36).substr(2, 16);
+    const signature = Math.random().toString(36).substr(2, 88); // Mock signature
+    
+    // Enhanced transaction with more realistic properties
     const transaction = {
       id: transactionId,
+      signature,
       from: fromAddress,
       to: toAddress,
       amount,
       currency,
       status: 'pending',
       createdAt: new Date().toISOString(),
-      confirmations: 0
+      confirmations: 0,
+      blockHeight: null,
+      fee: await this.estimateFee('payment', amount),
+      memo: `CreatorCoin payment - ${amount} ${currency}`,
+      programId: 'CreatorCoinProgram11111111111111111111111',
+      instructions: [
+        {
+          type: 'transfer',
+          amount,
+          currency,
+          from: fromAddress,
+          to: toAddress
+        }
+      ],
+      computeUnits: 200000,
+      priorityFee: 0.000001
     };
     
     this.transactions.set(transactionId, transaction);
     
-    // Simulate transaction processing
+    // Simulate realistic transaction processing with multiple confirmations
+    setTimeout(() => {
+      transaction.status = 'processing';
+      transaction.confirmations = 1;
+      transaction.blockHeight = Math.floor(Math.random() * 1000000) + 100000000;
+      this.transactions.set(transactionId, transaction);
+      logger.blockchain.transaction('payment', signature, amount);
+    }, 500);
+    
     setTimeout(() => {
       transaction.status = 'confirmed';
       transaction.confirmations = 32;
       transaction.confirmedAt = new Date().toISOString();
+      transaction.finalizedAt = new Date().toISOString();
       this.transactions.set(transactionId, transaction);
-      logger.info(`Transaction confirmed: ${transactionId}`);
+      logger.info(`Transaction finalized: ${transactionId} with 32 confirmations`);
     }, 2000);
     
-    logger.info(`Payment transaction created: ${transactionId}`);
+    logger.info(`Payment transaction created: ${transactionId} - ${amount} ${currency}`);
     return transaction;
   }
 
@@ -104,24 +155,46 @@ class MockBlockchain {
   // CreatorCoin operations
   async mintCreatorCoin(recipientAddress, amount, reason) {
     const transactionId = Math.random().toString(36).substr(2, 16);
+    const signature = Math.random().toString(36).substr(2, 88);
+    
+    // Enhanced minting with detailed tracking
     const transaction = {
       id: transactionId,
+      signature,
       type: 'mint',
       recipient: recipientAddress,
       amount,
       reason,
       status: 'pending',
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      mintingAuthority: 'CreatorCoinMintAuthority',
+      tokenProgram: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+      decimals: 9,
+      metadata: {
+        name: 'CreatorCoin',
+        symbol: 'COIN',
+        description: 'Reward token for content creators',
+        image: 'https://creatorcoin.ai/token-logo.png'
+      },
+      gasUsed: 45000,
+      priorityFee: 0.000001
     };
     
     this.transactions.set(transactionId, transaction);
     
-    // Simulate minting
+    // Simulate realistic minting process
+    setTimeout(() => {
+      transaction.status = 'processing';
+      transaction.blockHeight = Math.floor(Math.random() * 1000000) + 100000000;
+      this.transactions.set(transactionId, transaction);
+    }, 800);
+    
     setTimeout(() => {
       transaction.status = 'completed';
       transaction.completedAt = new Date().toISOString();
+      transaction.mintedSupply = Math.floor(Math.random() * 10000000) + 5000000; // Total supply after mint
       this.transactions.set(transactionId, transaction);
-      logger.info(`CreatorCoin minted: ${amount} to ${recipientAddress}`);
+      logger.info(`CreatorCoin minted: ${amount} to ${recipientAddress} - Reason: ${reason}`);
     }, 1500);
     
     return transaction;
@@ -129,22 +202,47 @@ class MockBlockchain {
 
   async stakeCreatorCoin(walletAddress, amount, duration) {
     const stakeId = Math.random().toString(36).substr(2, 16);
+    const signature = Math.random().toString(36).substr(2, 88);
+    
+    // Enhanced staking with dynamic APY based on duration
+    let apy = 8.5; // Base APY
+    if (duration >= 365) apy = 12.0; // 1 year+
+    else if (duration >= 180) apy = 10.5; // 6 months+
+    else if (duration >= 90) apy = 9.5;   // 3 months+
+    else if (duration >= 30) apy = 8.5;   // 1 month+
+    else apy = 6.0; // Less than 1 month
+    
     const stake = {
       id: stakeId,
+      signature,
       walletAddress,
       amount,
       duration,
-      apy: 8.5,
-      status: 'active',
+      apy,
+      status: 'pending',
       startDate: new Date().toISOString(),
       endDate: new Date(Date.now() + (duration * 24 * 60 * 60 * 1000)).toISOString(),
-      expectedRewards: amount * 0.085 * (duration / 365)
+      expectedRewards: Number((amount * apy / 100 * (duration / 365)).toFixed(4)),
+      lockupPeriod: duration,
+      earlyWithdrawalPenalty: 0.15, // 15% penalty
+      stakingProgram: 'CreatorCoinStaking',
+      validator: 'CreatorCoinValidator',
+      compound: true, // Auto-compound rewards
+      lastRewardClaim: new Date().toISOString(),
+      accruedRewards: 0
     };
     
-    // Store stake (in real implementation, this would be on-chain)
     this.transactions.set(stakeId, stake);
     
-    logger.info(`CreatorCoin staked: ${amount} for ${duration} days`);
+    // Simulate staking process
+    setTimeout(() => {
+      stake.status = 'active';
+      stake.activatedAt = new Date().toISOString();
+      stake.blockHeight = Math.floor(Math.random() * 1000000) + 100000000;
+      this.transactions.set(stakeId, stake);
+      logger.info(`CreatorCoin staked: ${amount} for ${duration} days at ${apy}% APY`);
+    }, 1200);
+    
     return stake;
   }
 
@@ -156,24 +254,89 @@ class MockBlockchain {
 
   // Smart contract operations
   async deployContract(contractCode, constructorArgs = []) {
-    const contractAddress = PublicKey.unique().toString();
+    const contractAddress = Math.random().toString(36).substr(2, 44); // More realistic address length
+    const transactionId = Math.random().toString(36).substr(2, 16);
     
-    logger.info(`Contract deployed to: ${contractAddress}`);
-    return {
+    // Enhanced contract deployment simulation
+    const deployment = {
       address: contractAddress,
-      transactionId: Math.random().toString(36).substr(2, 16),
-      status: 'deployed'
+      transactionId,
+      status: 'deploying',
+      contractCode: contractCode.slice(0, 100) + '...', // Store partial code for demo
+      constructorArgs,
+      deployedAt: new Date().toISOString(),
+      gasUsed: 450000,
+      deploymentCost: 0.05, // SOL
+      creator: 'CreatorCoinDeployer',
+      version: '1.0.0',
+      verified: true
     };
+    
+    // Simulate deployment process
+    setTimeout(() => {
+      deployment.status = 'deployed';
+      deployment.confirmedAt = new Date().toISOString();
+      logger.info(`Smart contract deployed successfully: ${contractAddress}`);
+    }, 3000);
+    
+    logger.info(`Deploying smart contract to: ${contractAddress}`);
+    return deployment;
   }
 
-  async callContract(contractAddress, method, args = []) {
-    // TODO: Implement contract interaction
-    logger.info(`Contract call: ${contractAddress}.${method}(${args.join(', ')})`);
-    return {
-      success: true,
-      result: null,
-      transactionId: Math.random().toString(36).substr(2, 16)
+  async callContract(contractAddress, method, args = [], options = {}) {
+    const transactionId = Math.random().toString(36).substr(2, 16);
+    
+    // Enhanced contract interaction simulation
+    const contractCall = {
+      contractAddress,
+      method,
+      args,
+      transactionId,
+      status: 'executing',
+      gasLimit: options.gasLimit || 200000,
+      gasUsed: Math.floor(Math.random() * 150000) + 50000,
+      gasPrice: 0.000001,
+      caller: options.caller || 'default_caller',
+      executedAt: new Date().toISOString()
     };
+    
+    // Simulate different contract methods
+    let result = null;
+    switch (method) {
+      case 'mintCreatorCoin':
+        result = {
+          tokensMinted: args[1] || 100,
+          recipient: args[0] || 'unknown',
+          newTotalSupply: Math.floor(Math.random() * 10000000) + 1000000
+        };
+        break;
+      case 'stakeTokens':
+        result = {
+          stakeId: Math.random().toString(36).substr(2, 16),
+          amount: args[0] || 0,
+          duration: args[1] || 30,
+          apy: 8.5
+        };
+        break;
+      case 'getBalance':
+        result = {
+          balance: Math.floor(Math.random() * 1000) + 100,
+          decimals: 9
+        };
+        break;
+      default:
+        result = { success: true, data: 'Contract executed successfully' };
+    }
+    
+    setTimeout(() => {
+      contractCall.status = 'completed';
+      contractCall.result = result;
+      contractCall.completedAt = new Date().toISOString();
+      logger.info(`Contract call completed: ${contractAddress}.${method}()`);
+    }, 1500);
+    
+    logger.info(`Executing contract: ${contractAddress}.${method}(${args.join(', ')})`);
+    return contractCall;
   }
 
   // Network information
@@ -208,7 +371,7 @@ const initializeBlockchain = async () => {
   try {
     if (!blockchainInstance) {
       // For development, use mock blockchain
-      // TODO: Replace with actual Solana connection in production
+      // Mock implementation - replace with actual Solana connection in production
       if (process.env.NODE_ENV === 'production' && process.env.SOLANA_RPC_URL) {
         // Real Solana connection
         const connection = new Connection(

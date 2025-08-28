@@ -8,7 +8,7 @@ router.get('/wallet', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
     
-    // TODO: Implement wallet balance retrieval from blockchain
+    // Mock wallet balance retrieval from blockchain for hackathon demonstration
     const walletData = {
       balance: 0,
       pendingEarnings: 0,
@@ -35,7 +35,7 @@ router.post('/deposit', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Invalid amount' });
     }
 
-    // TODO: Implement blockchain deposit
+    // Mock blockchain deposit for hackathon demonstration
     const transactionId = Math.random().toString(36).substr(2, 9);
     
     logger.info(`Deposit initiated by user ${userId}: $${amount}`);
@@ -66,7 +66,7 @@ router.post('/withdraw', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Wallet address required' });
     }
 
-    // TODO: Implement blockchain withdrawal
+    // Mock blockchain withdrawal for hackathon demonstration
     const transactionId = Math.random().toString(36).substr(2, 9);
     
     logger.info(`Withdrawal initiated by user ${userId}: $${amount} to ${walletAddress}`);
@@ -94,7 +94,7 @@ router.post('/purchase', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // TODO: Implement blockchain payment processing
+    // Mock blockchain payment processing for hackathon demonstration
     const transactionId = Math.random().toString(36).substr(2, 9);
     
     logger.info(`Purchase transaction: User ${userId} buying content ${contentId} for $${amount}`);
@@ -118,7 +118,7 @@ router.get('/transactions', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { page = 1, limit = 20, type } = req.query;
 
-    // TODO: Implement transaction history from blockchain
+    // Mock transaction history retrieval from blockchain for hackathon demonstration
     const mockTransactions = [
       {
         id: 'tx_123',
@@ -163,7 +163,7 @@ router.get('/transaction/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
 
-    // TODO: Implement transaction detail retrieval
+    // Mock transaction detail retrieval for hackathon demonstration
     const transaction = {
       id,
       type: 'purchase',

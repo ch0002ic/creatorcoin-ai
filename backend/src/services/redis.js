@@ -141,7 +141,7 @@ const initializeRedis = async () => {
   try {
     if (!redisClient) {
       // For development, use mock Redis
-      // TODO: Replace with actual Redis connection in production
+      // Mock Redis connection for hackathon demonstration - replace with actual Redis connection in production
       if (process.env.NODE_ENV === 'production' && process.env.REDIS_URL) {
         redisClient = redis.createClient({
           url: process.env.REDIS_URL
