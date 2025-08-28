@@ -1,31 +1,14 @@
 {
   "version": 2,
   "name": "creatorcoin-ai",
-  "builds": [
-    {
-      "src": "frontend/dist/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/$1"
-    }
-  ],
+  "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "installCommand": "cd frontend && npm install",
-  "buildCommand": "cd frontend && npm run build",
-  "devCommand": "cd frontend && npm run dev",
-  "framework": "vite",
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "@vercel/node@2.15.9"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",

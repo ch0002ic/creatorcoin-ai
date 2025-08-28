@@ -1,5 +1,5 @@
 // Vercel Serverless Function for Purchase API
-module.exports = (req, res) => {
+export default async function handler(req, res) {
   // Add CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -11,8 +11,7 @@ module.exports = (req, res) => {
   
   // Handle preflight request
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return res.status(200).end();
   }
   
   if (req.method === 'POST') {
@@ -49,10 +48,10 @@ module.exports = (req, res) => {
       };
       
       console.log('Sending success response:', result);
-      res.status(200).json(result);
+      return res.status(200).json(result);
     } catch (error) {
       console.error('Purchase API error:', error);
-      res.status(500).json({ 
+      return res.status(500).json({ 
         error: 'Internal server error', 
         message: error.message 
       });
@@ -60,6 +59,6 @@ module.exports = (req, res) => {
   } else {
     console.log('Method not allowed:', req.method);
     res.setHeader('Allow', ['POST', 'OPTIONS']);
-    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
-};
+}
