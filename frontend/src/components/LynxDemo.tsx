@@ -58,8 +58,8 @@ const LynxDemo: React.FC = () => {
     console.log(`🔥 BUTTON CLICKED! Initiating blockchain payment for ${content.title} - $${content.price}`);
     
     try {
-      console.log('Making API request to:', '/api/purchase');
-      const response = await fetch('/api/purchase', {
+      console.log('Making API request to:', '/api/buy');
+      const response = await fetch('/api/buy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
