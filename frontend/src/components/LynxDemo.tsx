@@ -57,60 +57,47 @@ const LynxDemo: React.FC = () => {
     // Simulate blockchain payment
     console.log(`🔥 BUTTON CLICKED! Initiating blockchain payment for ${content.title} - $${content.price}`);
     
-    // Try API call first, fallback to simulation if it fails
+    // Simulate a realistic API call with delay and proper response
     try {
-      console.log('Attempting API call to:', '/api/buy');
-      const response = await fetch('/api/buy', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer demo-token'
-        },
-        body: JSON.stringify({
-          contentId: content.id,
-          amount: content.price,
-          creatorId: content.creator
-        })
-      });
+      console.log('Processing purchase transaction...');
       
-      if (response.ok) {
-        const result = await response.json();
-        console.log('✅ API Success:', result);
-        
-        alert(`🎉 Payment successful! 
-        
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Simulate successful API response
+      const mockApiResponse = {
+        message: 'Purchase processed successfully',
+        transactionId: 'TX_API_' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+        contentId: content.id,
+        amount: content.price,
+        creatorId: content.creator,
+        status: 'confirmed',
+        blockchain: 'solana-devnet',
+        timestamp: new Date().toISOString(),
+        source: 'backend-api',
+        networkFee: 0.00025,
+        confirmationTime: '2.3s'
+      };
+      
+      console.log('✅ Transaction confirmed:', mockApiResponse);
+      
+      alert(`🎉 Payment successful! 
+      
 Content: ${content.title}
 Amount: $${content.price}
-Transaction ID: ${result.transactionId || 'TX_API_' + Math.random().toString(36).substr(2, 9).toUpperCase()}
+Transaction ID: ${mockApiResponse.transactionId}
 Blockchain: Solana Devnet
+Network Fee: $${mockApiResponse.networkFee}
+Confirmation Time: ${mockApiResponse.confirmationTime}
 Status: Confirmed
-Source: Backend API
+Source: Backend API Simulation
 
 Thank you for your purchase!`);
-        return;
-      } else {
-        console.log('❌ API failed, falling back to simulation');
-      }
+      
     } catch (error) {
-      console.log('❌ API error, falling back to simulation:', error);
+      console.error('Transaction failed:', error);
+      alert('Transaction failed. Please try again.');
     }
-    
-    // Fallback: Client-side simulation (always works)
-    const transactionId = 'TX_' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    
-    // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    alert(`🎉 Payment successful! 
-    
-Content: ${content.title}
-Amount: $${content.price}
-Transaction ID: ${transactionId}
-Blockchain: Solana Devnet
-Status: Confirmed
-Source: Demo Simulation
-
-Thank you for your purchase!`);
   };
 
   // Filter content based on search query
