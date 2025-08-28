@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { LynxView, LynxText, LynxButton, LynxCard, LynxInput, LynxList } from '../lynx/components';
 import { Lynx, LynxGesture } from '../lynx/core';
 
@@ -15,7 +15,6 @@ interface ContentItem {
 const LynxDemo: React.FC = () => {
   const [platform] = useState(Lynx.detectPlatform());
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedContent, setSelectedContent] = useState<ContentItem | null>(null);
   const [mockContent] = useState<ContentItem[]>([
     {
       id: '1',
@@ -51,7 +50,7 @@ const LynxDemo: React.FC = () => {
   };
 
   const handleContentPress = (content: ContentItem) => {
-    setSelectedContent(content);
+    console.log('Content selected:', content.title);
   };
 
   const handlePurchase = async (content: ContentItem) => {
@@ -81,7 +80,7 @@ const LynxDemo: React.FC = () => {
     }
   };
 
-  const renderContentItem = (item: ContentItem, index: number) => (
+  const renderContentItem = (item: ContentItem) => (
     <LynxCard 
       key={item.id}
       interactive 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ReactNode } from 'react';
-import { Lynx, LynxConfig, LynxStyle, LynxGesture } from './core';
+import { Lynx, LynxStyle, LynxGesture } from './core';
 
 // Lynx-inspired React component wrapper
 export interface LynxReactProps {
@@ -21,9 +21,7 @@ export const LynxView: React.FC<LynxReactProps> = ({
   id,
   ...props 
 }) => {
-  const [lynxComponent] = useState(() => new Lynx.Component());
   const [gestureManager] = useState(() => new Lynx.GestureManager());
-  const [animator] = useState(() => new Lynx.Animator());
   
   useEffect(() => {
     if (onGesture && id) {
