@@ -82,14 +82,33 @@ function App() {
                   color: 'white',
                   cursor: 'pointer',
                   transition: 'transform 0.2s ease',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  minHeight: '120px',
+                  justifyContent: 'center'
                 }}
                 onClick={() => setCurrentDemo(demo.id)}
               >
-                <text style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+                <text style={{ 
+                  fontSize: '1.2rem', 
+                  fontWeight: 'bold', 
+                  marginBottom: '0.5rem',
+                  color: 'white',
+                  display: 'block',
+                  textAlign: 'center'
+                }}>
                   {demo.title}
                 </text>
-                <text style={{ fontSize: '0.9rem', opacity: 0.9 }}>
+                <text style={{ 
+                  fontSize: '0.9rem', 
+                  opacity: 0.9,
+                  color: 'white',
+                  display: 'block',
+                  textAlign: 'center',
+                  lineHeight: '1.4',
+                  marginTop: '0.5rem'
+                }}>
                   {demo.description}
                 </text>
               </view>
@@ -141,20 +160,57 @@ function App() {
           </view>
         </view>
 
-        <view style={{ marginTop: '2rem', padding: '1rem', background: '#f8f9fa', borderRadius: '8px' }}>
-          <text style={{ fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <view style={{ 
+          marginTop: '2rem', 
+          padding: '1rem', 
+          background: '#f8f9fa', 
+          borderRadius: '8px',
+          border: '1px solid #dee2e6'
+        }}>
+          <text style={{ 
+            fontSize: '0.9rem', 
+            fontWeight: 'bold', 
+            marginBottom: '0.5rem',
+            color: '#333',
+            display: 'block',
+            textAlign: 'center'
+          }}>
             🎯 Framework Status:
           </text>
-          <text style={{ fontSize: '0.8rem', color: '#28a745' }}>
+          <text style={{ 
+            fontSize: '0.8rem', 
+            color: '#28a745',
+            display: 'block',
+            margin: '0.3rem 0',
+            textAlign: 'left'
+          }}>
             ✅ Real @lynx-js/react implementation
           </text>
-          <text style={{ fontSize: '0.8rem', color: '#28a745' }}>
+          <text style={{ 
+            fontSize: '0.8rem', 
+            color: '#28a745',
+            display: 'block',
+            margin: '0.3rem 0',
+            textAlign: 'left'
+          }}>
             ✅ @lynx-js/rspeedy build system
           </text>
-          <text style={{ fontSize: '0.8rem', color: '#28a745' }}>
+          <text style={{ 
+            fontSize: '0.8rem', 
+            color: '#28a745',
+            display: 'block',
+            margin: '0.3rem 0',
+            textAlign: 'left'
+          }}>
             ✅ Cross-platform UI components (view, text)
           </text>
-          <text style={{ fontSize: '0.8rem', color: '#28a745' }}>
+          <text style={{ 
+            fontSize: '0.8rem', 
+            color: '#28a745',
+            display: 'block',
+            margin: '0.3rem 0',
+            textAlign: 'left'
+          }}>
             ✅ Production-ready for TikTok TechJam 2025
           </text>
         </view>
