@@ -1,5 +1,14 @@
 // Vercel Serverless Function for Blockchain Network Status
-export default function handler(req, res) {
+module.exports = (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+  
   if (req.method === 'GET') {
     res.status(200).json({
       network: 'solana-devnet',
@@ -11,7 +20,7 @@ export default function handler(req, res) {
       isDemo: true
     });
   } else {
-    res.setHeader('Allow', ['GET']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    res.setHeader('Allow', ['GET', 'OPTIONS']);
+    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
-}
+};
