@@ -52,10 +52,10 @@ function App() {
 
   return (
     <view className="App" style={{ 
-      minHeight: '100vh', 
-      padding: '2rem 1rem 4rem 1rem', 
+      width: '100%',
+      padding: '2rem 1rem 8rem 1rem', 
       boxSizing: 'border-box',
-      paddingBottom: '6rem'
+      overflow: 'auto'
     }}>
       <view className="App-header" style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <text style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
@@ -175,59 +175,59 @@ function App() {
         </view>
 
         <view style={{ 
-          marginTop: '2rem', 
-          marginBottom: '4rem',
-          padding: '1.5rem', 
+          marginTop: '1.5rem', 
+          marginBottom: '3rem',
+          padding: '1rem', 
           background: '#f8f9fa', 
           borderRadius: '8px',
           border: '1px solid #dee2e6',
-          maxWidth: '600px',
-          margin: '2rem auto 4rem auto'
+          maxWidth: '500px',
+          margin: '1.5rem auto 3rem auto'
         }}>
           <text style={{ 
-            fontSize: '1rem', 
+            fontSize: '0.9rem', 
             fontWeight: 'bold', 
-            marginBottom: '1rem',
+            marginBottom: '0.8rem',
             color: '#333',
             display: 'block',
             textAlign: 'center'
           }}>
             🎯 Framework Status
           </text>
-          <view style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <view style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
             <text style={{ 
-              fontSize: '0.9rem', 
+              fontSize: '0.8rem', 
               color: '#28a745',
               display: 'block',
               textAlign: 'left',
-              padding: '0.3rem 0'
+              padding: '0.2rem 0'
             }}>
               ✅ Real @lynx-js/react implementation
             </text>
             <text style={{ 
-              fontSize: '0.9rem', 
+              fontSize: '0.8rem', 
               color: '#28a745',
               display: 'block',
               textAlign: 'left',
-              padding: '0.3rem 0'
+              padding: '0.2rem 0'
             }}>
               ✅ @lynx-js/rspeedy build system
             </text>
             <text style={{ 
-              fontSize: '0.9rem', 
+              fontSize: '0.8rem', 
               color: '#28a745',
               display: 'block',
               textAlign: 'left',
-              padding: '0.3rem 0'
+              padding: '0.2rem 0'
             }}>
               ✅ Cross-platform UI components (view, text)
             </text>
             <text style={{ 
-              fontSize: '0.9rem', 
+              fontSize: '0.8rem', 
               color: '#28a745',
               display: 'block',
               textAlign: 'left',
-              padding: '0.3rem 0'
+              padding: '0.2rem 0'
             }}>
               ✅ Production-ready for TikTok TechJam 2025
             </text>
@@ -235,7 +235,7 @@ function App() {
         </view>
         
         {/* Extra spacing for mobile devices */}
-        <view style={{ height: '2rem' }}></view>
+        <view style={{ height: '1rem' }}></view>
       </view>
     </view>
   )
