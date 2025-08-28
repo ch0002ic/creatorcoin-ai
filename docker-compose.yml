@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: creatorcoin-postgres
+    environment:
+      POSTGRES_DB: creatorcoin
+      POSTGRES_USER: creatorcoin
+      POSTGRES_PASSWORD: creatorcoin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - creatorcoin-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: creatorcoin-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - creatorcoin-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: creatorcoin-backend
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://creatorcoin:creatorcoin123@postgres:5432/creatorcoin
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your-jwt-secret-key
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      SOLANA_RPC_URL: https://api.devnet.solana.com
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - creatorcoin-network
+
+  # AI Service
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: creatorcoin-ai
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    volumes:
+      - ./ai-service:/app
+    networks:
+      - creatorcoin-network
+
+  # Frontend (Lynx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: creatorcoin-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+      REACT_APP_AI_SERVICE_URL: http://localhost:5000
+      REACT_APP_SOLANA_NETWORK: devnet
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - creatorcoin-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  creatorcoin-network:
+    driver: bridge
