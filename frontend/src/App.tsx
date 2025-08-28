@@ -53,7 +53,7 @@ function App() {
   return (
     <view className="App" style={{ 
       width: '100%',
-      padding: '2rem 1rem 8rem 1rem', 
+      padding: '2rem 1rem 10rem 1rem', 
       boxSizing: 'border-box',
       overflow: 'auto'
     }}>
@@ -176,13 +176,13 @@ function App() {
 
         <view style={{ 
           marginTop: '1.5rem', 
-          marginBottom: '3rem',
-          padding: '1rem', 
+          marginBottom: '4rem',
+          padding: '1rem 1rem 1.5rem 1rem', 
           background: '#f8f9fa', 
           borderRadius: '8px',
           border: '1px solid #dee2e6',
           maxWidth: '500px',
-          margin: '1.5rem auto 3rem auto'
+          margin: '1.5rem auto 4rem auto'
         }}>
           <text style={{ 
             fontSize: '0.9rem', 
@@ -235,7 +235,7 @@ function App() {
         </view>
         
         {/* Extra spacing for mobile devices */}
-        <view style={{ height: '1rem' }}></view>
+        <view style={{ height: '3rem' }}></view>
       </view>
     </view>
   )
