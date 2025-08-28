@@ -76,10 +76,6 @@ function App() {
             gap: '1.5rem',
             marginBottom: '3rem'
           }}>
-            gap: '1rem',
-            maxWidth: '800px',
-            margin: '0 auto'
-          }}>
             {demos.map((demo) => (
               <view 
                 key={demo.id}
