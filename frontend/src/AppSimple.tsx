@@ -120,23 +120,26 @@ function AppSimple() {
           </text>
         )}
         
-        <text 
+        <view 
           style={{ 
             display: 'block', 
             marginTop: '0.8rem', 
             padding: '0.3rem 0.6rem',
             background: '#007bff',
-            color: '#fff',
             borderRadius: '4px',
-            fontSize: '0.8rem',
             cursor: 'pointer',
             textAlign: 'center',
             width: 'fit-content'
           }}
           onClick={checkServiceStatus}
         >
-          🔄 Refresh Status
-        </text>
+          <text style={{ 
+            color: '#fff',
+            fontSize: '0.8rem'
+          }}>
+            🔄 Refresh Status
+          </text>
+        </view>
       </view>
     );
   };
@@ -286,10 +289,19 @@ function AppSimple() {
   );
 
   const handleNavigation = (demoId: string) => {
+    console.log('Navigation clicked:', demoId); // Debug log
+    console.log('Current demo before:', currentDemo); // Debug log
     setCurrentDemo(demoId);
+    console.log('Setting demo to:', demoId); // Debug log
     if (demoId === 'content') {
       loadDemoData('content');
     }
+  };
+
+  // Alternative event handler for better compatibility
+  const handleButtonPress = (demoId: string) => {
+    console.log('Button press detected:', demoId);
+    handleNavigation(demoId);
   };
 
   const renderNavigation = () => (
@@ -302,58 +314,74 @@ function AppSimple() {
         Navigation
       </text>
       <view style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', justifyContent: 'center' }}>
-        <text 
+        <view 
           style={{ 
             padding: '0.5rem', 
             background: currentDemo === 'welcome' ? '#007bff' : '#e9ecef', 
-            color: currentDemo === 'welcome' ? '#fff' : '#333',
             borderRadius: '4px',
-            fontSize: '0.8rem',
             cursor: 'pointer'
           }}
           onClick={() => handleNavigation('welcome')}
+          onPointerDown={() => handleButtonPress('welcome')}
         >
-          Home
-        </text>
-        <text 
+          <text style={{
+            color: currentDemo === 'welcome' ? '#fff' : '#333',
+            fontSize: '0.8rem'
+          }}>
+            Home
+          </text>
+        </view>
+        <view 
           style={{ 
             padding: '0.5rem', 
             background: currentDemo === 'content' ? '#007bff' : '#e9ecef', 
-            color: currentDemo === 'content' ? '#fff' : '#333',
             borderRadius: '4px',
-            fontSize: '0.8rem',
             cursor: 'pointer'
           }}
           onClick={() => handleNavigation('content')}
+          onPointerDown={() => handleButtonPress('content')}
         >
-          AI
-        </text>
-        <text 
+          <text style={{
+            color: currentDemo === 'content' ? '#fff' : '#333',
+            fontSize: '0.8rem'
+          }}>
+            AI
+          </text>
+        </view>
+        <view 
           style={{ 
             padding: '0.5rem', 
             background: currentDemo === 'blockchain' ? '#007bff' : '#e9ecef', 
-            color: currentDemo === 'blockchain' ? '#fff' : '#333',
             borderRadius: '4px',
-            fontSize: '0.8rem',
             cursor: 'pointer'
           }}
           onClick={() => handleNavigation('blockchain')}
+          onPointerDown={() => handleButtonPress('blockchain')}
         >
-          Wallet
-        </text>
-        <text 
+          <text style={{
+            color: currentDemo === 'blockchain' ? '#fff' : '#333',
+            fontSize: '0.8rem'
+          }}>
+            Wallet
+          </text>
+        </view>
+        <view 
           style={{ 
             padding: '0.5rem', 
             background: currentDemo === 'analytics' ? '#007bff' : '#e9ecef', 
-            color: currentDemo === 'analytics' ? '#fff' : '#333',
             borderRadius: '4px',
-            fontSize: '0.8rem',
             cursor: 'pointer'
           }}
           onClick={() => handleNavigation('analytics')}
+          onPointerDown={() => handleButtonPress('analytics')}
         >
-          Stats
-        </text>
+          <text style={{
+            color: currentDemo === 'analytics' ? '#fff' : '#333',
+            fontSize: '0.8rem'
+          }}>
+            Stats
+          </text>
+        </view>
       </view>
     </view>
   );
