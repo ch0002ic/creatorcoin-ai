@@ -12,8 +12,8 @@ export default defineConfig({
   },
   plugins: [
     pluginReactLynx({
-      enableCSSInheritance: true,
-      defaultDisplayLinear: false,
+      enableCSSInheritance: false, // Disable to reduce complexity
+      defaultDisplayLinear: true,   // Enable for better layout stability
     }),
     pluginQRCode(),
     pluginSass(),
