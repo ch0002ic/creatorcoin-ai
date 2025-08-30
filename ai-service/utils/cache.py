@@ -227,6 +227,34 @@ class CacheManager:
         """Cache analysis result"""
         cache_key = f"analysis:{content_id}"
         return self.set(cache_key, analysis, ttl)
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get cache status and statistics"""
+        try:
+            current_time = time.time()
+            active_entries = 0
+            expired_entries = 0
+            
+            for key, entry in self.cache.items():
+                if current_time > entry['expires_at']:
+                    expired_entries += 1
+                else:
+                    active_entries += 1
+            
+            return {
+                'status': 'operational',
+                'active_entries': active_entries,
+                'expired_entries': expired_entries,
+                'total_entries': len(self.cache),
+                'default_ttl': self.default_ttl,
+                'last_updated': datetime.utcnow().isoformat()
+            }
+        except Exception as e:
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.utcnow().isoformat()
+            }
 
 # Global cache instance
 cache_manager = CacheManager()

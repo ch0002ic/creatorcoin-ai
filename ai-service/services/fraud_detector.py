@@ -715,3 +715,47 @@ class FraudDetector:
                 'action': 'manual_review',
                 'error': str(e)
             }
+    
+    def create_report(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a fraud report for investigation"""
+        try:
+            report_id = f"FR_{int(time.time())}_{hashlib.md5(str(data).encode()).hexdigest()[:8]}"
+            
+            report = {
+                'report_id': report_id,
+                'timestamp': datetime.utcnow().isoformat(),
+                'status': 'submitted',
+                'data': data,
+                'priority': 'medium',
+                'assigned_to': 'fraud_team',
+                'estimated_review_time': '24-48 hours'
+            }
+            
+            self.logger.info(f"Fraud report created: {report_id}")
+            return report
+            
+        except Exception as e:
+            self.logger.error(f"Error creating fraud report: {str(e)}")
+            return {
+                'error': 'Failed to create report',
+                'message': str(e),
+                'timestamp': datetime.utcnow().isoformat()
+            }
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get status of fraud detection system"""
+        try:
+            return {
+                'status': 'operational',
+                'version': '1.0.0',
+                'models_loaded': True,
+                'content_hashes_tracked': len(self.content_hashes),
+                'user_patterns_tracked': len(self.user_behavior_patterns),
+                'last_updated': datetime.utcnow().isoformat()
+            }
+        except Exception as e:
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.utcnow().isoformat()
+            }

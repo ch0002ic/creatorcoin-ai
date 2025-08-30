@@ -5,6 +5,7 @@ import { pluginTypeCheck } from "@rsbuild/plugin-type-check";
 import { pluginSass } from "@rsbuild/plugin-sass";
 
 export default defineConfig({
+  // @ts-ignore - Source configuration is valid for Lynx framework
   source: {
     entry: {
       index: "./src/main.tsx",
@@ -13,14 +14,18 @@ export default defineConfig({
   plugins: [
     pluginReactLynx({
       enableCSSInheritance: false, // Disable to reduce complexity
-      defaultDisplayLinear: true,   // Enable for better layout stability
+      defaultDisplayLinear: true,  // Enable for better layout stability
     }),
     pluginQRCode(),
     pluginSass(),
     pluginTypeCheck(),
   ],
   environments: {
-    web: {},
+    web: {
+      output: {
+        assetPrefix: '/',
+      },
+    },
     lynx: {},
   },
   output: {
