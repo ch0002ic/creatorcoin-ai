@@ -35,7 +35,7 @@
     "content-quality",
     "monetization"
   ],
-  "author": "TikTok TechJam 2025 Team",
+  "author": "douyin_chain",
   "license": "MIT",
   "engines": {
     "node": "22.x",
