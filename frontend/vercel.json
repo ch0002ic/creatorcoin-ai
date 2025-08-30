@@ -3,6 +3,18 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/web-demo.html"
+    },
+    {
+      "source": "/demo",
+      "destination": "/web-demo.html"
+    },
+    {
+      "source": "/lynx",
+      "destination": "/index.html"
+    },
+    {
       "source": "/index.lynx.bundle",
       "destination": "/index.lynx.bundle"
     },
@@ -12,7 +24,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/web-demo.html"
     }
   ],
   "headers": [
@@ -39,6 +51,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.html)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
         }
       ]
     }
