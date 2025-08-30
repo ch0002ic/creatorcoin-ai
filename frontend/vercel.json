@@ -28,6 +28,19 @@
           "value": "public, max-age=31536000"
         }
       ]
+    },
+    {
+      "source": "/index.web.bundle",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        }
+      ]
     }
   ]
 }

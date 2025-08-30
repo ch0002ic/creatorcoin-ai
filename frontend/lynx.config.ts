@@ -30,7 +30,7 @@ export default defineConfig({
   },
   output: {
     assetPrefix: process.env.NODE_ENV === 'production' 
-      ? 'https://creatorcoin-ai.vercel.app/' 
+      ? 'https://creatorcoin-ai-frontend.vercel.app/' 
       : undefined,
     cleanDistPath: true,
   },
